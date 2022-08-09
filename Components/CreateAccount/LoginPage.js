@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Formik } from "formik";
 import { Button, TextInput } from "react-native-paper";
@@ -19,15 +19,23 @@ function LoginForm() {
   const userdata = useSelector((state) => state.global.userdata);
   const spin = useSelector((state) => state.global.spin);
 
-  const onsubmit = (values) => {
+  const onsubmit = (values, formikAction) => {
     const formvalue = { ...values };
-    dispatch({ type: "LOGIN", payload: formvalue });
+    dispatch({ type: "LOGIN", payload: { formvalue } });
+    formikAction.resetForm();
   };
-  setTimeout(() => {
-    if (userdata?.verified == true) {
+
+  useEffect(() => {
+    GoHomePage();
+  }, [userdata]);
+
+  const GoHomePage = () => {
+    if (userdata?.verified) {
       navigation.navigate("Main");
+    } else {
+      Alert.alert("Not Go Home");
     }
-  }, 3000);
+  };
 
   return (
     <View style={styles.loginContainer}>

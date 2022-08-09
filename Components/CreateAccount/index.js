@@ -41,6 +41,10 @@ function Sign() {
 
   const userdata = useSelector((state) => state.global.userdata);
 
+  useEffect(() => {
+    goHome();
+  }, [userdata]);
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
       "882701916866-q29e63uau8fpqldes6c6hh4je69o445t.apps.googleusercontent.com",
@@ -123,9 +127,12 @@ function Sign() {
       alert(`Facebook Login Error: ${message}`);
     }
   }
-  if (userdata.length != 0) {
-    navigation.navigate("Main");
-  }
+
+  const goHome = () => {
+    if (userdata.length != 0 && userdata?.picture) {
+      navigation.navigate("Main");
+    }
+  };
 
   const containerStyle = {
     backgroundColor: "white",

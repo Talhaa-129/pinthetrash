@@ -11,7 +11,19 @@ function* SignUp({ payload }) {
     yield put(actions.spinner(true));
     const res = yield call(axios.post, `${URL}/signup`, main);
     if (res.status == 200) {
-      Alert.alert("Success");
+      Alert.alert(
+        "Submit Successfuly",
+        "Please Verified Account From Your Email",
+        [
+          {
+            text: "Ok",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          // { text: "Yes", onPress: () => BackHandler.exitApp() },
+        ],
+        { cancelable: false }
+      );
       yield put(actions.spinner(false));
     }
   } catch (e) {
@@ -20,20 +32,20 @@ function* SignUp({ payload }) {
 }
 
 function* Login({ payload }) {
-  const { email, password } = payload;
-  const data = { email, password };
   try {
+    const { email, password } = payload.formvalue;
+    const data = { email, password };
     yield put(actions.spinner(true));
     const respo = yield call(axios.post, `${URL}/login`, data);
-    yield put(actions.spinner(true));
-    Alert.alert("nexttttttt");
     if (respo.status == 200) {
       if (respo.data == "Invalid Password") {
         Alert.alert("Invalid Password");
+        yield put(actions.spinner(false));
       } else if (respo.data == "Email is Incorrect") {
         Alert.alert("Email is Incorrect");
+        yield put(actions.spinner(false));
       } else {
-        if (respo.data[0].verified == true) {
+        if (respo.data[0].verified) {
           yield put(actions.UserData(respo.data[0]));
           yield put(actions.spinner(false));
         } else {
@@ -43,9 +55,11 @@ function* Login({ payload }) {
       }
     } else {
       Alert.alert("Error");
+      yield put(actions.spinner(false));
     }
   } catch (error) {
-    Alert.alert("Incorrect");
+    Alert.alert("Incorrect", error);
+    yield put(actions.spinner(false));
   }
 }
 function* emailForget({ payload }) {
