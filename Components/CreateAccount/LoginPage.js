@@ -31,9 +31,9 @@ function LoginForm() {
 
   const GoHomePage = () => {
     if (userdata?.verified) {
-      navigation.navigate("Main");
-    } else {
-      Alert.alert("Not Go Home");
+      navigation.navigate("Drawer");
+    } else if (userdata?.length == 0) {
+      navigation.navigate("Sign");
     }
   };
 

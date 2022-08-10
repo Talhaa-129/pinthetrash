@@ -130,7 +130,7 @@ function Sign() {
 
   const goHome = () => {
     if (userdata.length != 0 && userdata?.picture) {
-      navigation.navigate("Main");
+      navigation.navigate("Drawer");
     }
   };
 
@@ -202,7 +202,6 @@ function Sign() {
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>Signup</Text>
           </Button>
         </View>
-
         <View style={styles.footer}>
           <View style={{ marginLeft: 100 }}>
             <TouchableOpacity

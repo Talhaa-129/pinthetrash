@@ -132,7 +132,7 @@ function Main() {
           component={LoginForm}
         />
         <Stack.Screen
-          name="Main"
+          name="Drawer"
           options={{ title: "", headerShown: false }}
           component={DrawerMain}
         />

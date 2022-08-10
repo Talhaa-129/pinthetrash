@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Circle, Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
@@ -15,10 +15,10 @@ function Homepage() {
   const [latitudes, setLatitude] = useState(113, 32456);
   const [longitudes, setLongitude] = useState(-112.65689);
   const [errorMsg, setErrorMsg] = useState(null);
+  let myMap;
 
   useInjectSaga({ key: "global", saga: homeSaga });
   useInjectReducer({ key: "global", reducer: reducer });
-  let myMap;
 
   const userdata = useSelector((state) => state.global.userdata);
 
@@ -42,76 +42,76 @@ function Homepage() {
   };
 
   useEffect(() => {
-    onPinIt();
+    setTimeout(() => {
+      onPinIt();
+    }, 20000);
   }, []);
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        ref={(ref) => (myMap = ref)}
-        zoomEnabled={true}
-        zoomControlEnabled={true}
-        // maxZoomLevel={16}
-        followsUserLocation={true}
-        initialRegion={{
-          latitude: latitudes,
-          longitude: longitudes,
-          latitudeDelta: longitudes,
-          longitudeDelta: longitudes,
-        }}
-        rotateEnabled={true}
-        showsUserLocation={locations ? true : false}
-        showsScale={false}
-        showsTraffic={false}
-        showsCompass={false}
-        onPress={() => {
-          myMap.fitToCoordinates([
-            {
-              latitude: latitudes,
-              longitude: longitudes,
-            },
-          ]),
-            {
-              minZoomLevel: 16,
-              // edgePadding: { top: 10, bottom: 10, left: 50, right: 50 },
-              animated: true,
-            };
-        }}
-      >
-        <Marker
-          coordinate={{
+      <React.Fragment>
+        <MapView
+          style={styles.map}
+          ref={(ref) => (myMap = ref)}
+          zoomEnabled={true}
+          zoomControlEnabled={true}
+          // maxZoomLevel={16}
+          followsUserLocation={true}
+          initialRegion={{
             latitude: latitudes,
             longitude: longitudes,
+            latitudeDelta: longitudes,
+            longitudeDelta: longitudes,
           }}
-          focusable={true}
-          pinColor="orange"
-          // onPress={() => {
-          //   myMap.fitToCoordinates([
-          //     {
-          //       latitude: latitudes,
-          //       longitude: longitudes,
-          //     },
-          //   ]),
-          //     {
-          // edgePadding: { top: 10, bottom: 10, left: 50, right: 50 },
-          //       // animated: true,
-          //     };
-          // }}
-          draggable={true}
-          onDragStart={(e) => {
-            console.log("drag start", e.nativeEvent.coordinate);
+          // rotateEnabled={true}
+          showsUserLocation={locations ? true : false}
+          // showsScale={false}
+          // showsTraffic={false}
+          // showsCompass={false}
+          onPress={() => {
+            myMap.fitToCoordinates([
+              {
+                latitude: latitudes,
+                longitude: longitudes,
+              },
+            ]),
+              {
+                minZoomLevel: 16,
+                // edgePadding: { top: 10, bottom: 10, left: 50, right: 50 },
+                animated: true,
+              };
           }}
-          onDragEnd={(e) => {
-            setLatitude(e.nativeEvent.coordinate.latitude);
-            setLongitude(e.nativeEvent.coordinate.longitude);
-          }}
-        ></Marker>
-        <Circle
-          center={{ latitude: latitudes, longitude: longitudes }}
-          radius={15}
-        ></Circle>
-      </MapView>
+        >
+          <Marker
+            coordinate={{
+              latitude: latitudes,
+              longitude: longitudes,
+            }}
+            focusable={true}
+            pinColor="orange"
+            // onPress={() => {
+            //   myMap.fitToCoordinates([
+            //     {
+            //       latitude: latitudes,
+            //       longitude: longitudes,
+            //     },
+            //   ]),
+            //     {
+            // edgePadding: { top: 10, bottom: 10, left: 50, right: 50 },
+            //       // animated: true,
+            //     };
+            // }}
+            draggable={true}
+            onDragStart={(e) => {
+              console.log("drag start", e.nativeEvent.coordinate);
+            }}
+            onDragEnd={(e) => {
+              setLatitude(e.nativeEvent.coordinate.latitude);
+              setLongitude(e.nativeEvent.coordinate.longitude);
+            }}
+          />
+        </MapView>
+      </React.Fragment>
       <View>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -127,14 +127,16 @@ export default Homepage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
   },
+
   map: {
     ...StyleSheet.absoluteFillObject,
     // width: Dimensions.get("window").width,
-    height: "50%",
+    height: "45%",
+    marginVertical: 40,
   },
   centeredView: {
     flex: 1,

@@ -245,7 +245,7 @@ function* updateProfile({ payload }) {
 }
 
 function* signout() {
-  yield put(actions.SignOut([[]]));
+  yield put(actions.SignOut([]));
 }
 
 function* homeSaga() {

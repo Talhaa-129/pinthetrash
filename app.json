@@ -15,7 +15,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.app.pinthetrash",
+      "bundleIdentifier": "com.pinthetrash.myapp",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
